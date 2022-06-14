@@ -30,15 +30,16 @@ Cada filho cadastrado terá uma lista de tarefas onde o usuário poderar cadastr
 
 ## Requisitos
 
--  O backend da aplicação deverá ser uma API Rest feita com JavaScript/TypeScript;
+- O backend da aplicação deverá ser uma API Rest feita com JavaScript/TypeScript;
 - A Api deverá ser documentada;
 - Ter um banco de dados para armazenar as informações sobre filhos e as tarefas;
 - Deverá também ter testes automatizados;
--  O Frontend da aplicação deverá ser feito usando alguma das seguintes ferramentas:
+- O Frontend da aplicação deverá ser feito usando alguma das seguintes ferramentas:
 	- VueJs
 	- ReactJs
 	- Angular
--   O Frontend deverá buscar as informações na API através de requisições HTTP
+- O Frontend deverá buscar as informações na API através de requisições HTTP
+- O prazo para a realização desse projeto é de **duas semanas (14 dias)**.
 
 ## Ganha mais pontos
 
