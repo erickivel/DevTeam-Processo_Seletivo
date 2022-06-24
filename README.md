@@ -4,19 +4,11 @@
 
 ## Para fazer parte do Dev Team basta resolver o desafio abaixo
 
- Criar um sistema onde os pais poderam cadastrar seus filhos e para cada filho suas respectivas tarefas.
-
-## Cadastro de filhos
-O usuário poderá cadastrar um filho com as seguintes informações:
-
-- Nome;
-- Idade;
-
-**Todos** os campos são de preenchimento obrigatório.
+ Criar um sistema onde os usuários poderão cadastrar suas respectivas tarefas.
 
 ## Lista de Tarefas
 
-Cada filho cadastrado terá uma lista de tarefas onde o usuário poderar cadastrar uma nova tarefa com as seguintes informações:
+O usuário podera cadastrar uma nova tarefa com as seguintes informações:
 -   **Tarefa**. Ex.: "Lavar a louça" ;
 -   **Assunto**. Ex.: "Casa", "Escola", "Trabalho";
 
@@ -24,9 +16,7 @@ Cada filho cadastrado terá uma lista de tarefas onde o usuário poderar cadastr
 
 ## Funcionalidades
 
--   **Filhos:**  CRUD;
 -   **Tarefas:**  CRUD;
--   **Separação de tarefas por filho**
 
 ## Requisitos
 
