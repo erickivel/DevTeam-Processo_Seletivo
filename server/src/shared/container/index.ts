@@ -1,8 +1,9 @@
 import { container } from "tsyringe";
-import { UsersRepositoryInMemory } from "../../../tests/modules/accounts/Doubles/repositories/UsersRepositoryInMemory";
+
+import { PrismaUsersRepository } from "../../modules/accounts/infra/database/PrismaUsersRepository";
 import { IUsersRepository } from "../../modules/accounts/repositories/IUsersRepository";
 
 container.registerSingleton<IUsersRepository>(
   "UsersRepository",
-  UsersRepositoryInMemory
+  PrismaUsersRepository
 );
