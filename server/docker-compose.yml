@@ -13,6 +13,18 @@ services:
       - POSTGRES_DB=impactodo_database
     volumes:
       - pgdata:/data/postgres
+  impactodo_test_database:
+    image: postgres
+    container_name: impactodo_test_database
+    restart: always
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_USER=docker_test
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=impactodo_test_database
+    volumes:
+      - pgdata:/data/postgres
   impactodo_api:
     build: .
     container_name: impactodo_api
