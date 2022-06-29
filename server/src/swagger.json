@@ -14,6 +14,7 @@
         "summary": "Create a user",
         "description": "Create a new user",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
