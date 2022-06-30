@@ -92,8 +92,6 @@ describe("Create Task UseCase", () => {
       subjectName: "Home"
     }
 
-    console.log(subjects);
-
     expect(responseOrError.isRight()).toBeTruthy();
     expect(responseOrError.value).toMatchObject(expectedResponse);
     expect(subjects.length).toEqual(1);
