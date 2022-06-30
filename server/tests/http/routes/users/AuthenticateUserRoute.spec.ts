@@ -1,8 +1,8 @@
 import { hash } from "bcrypt";
 import request from "supertest";
 
-import { prismaClient } from "../../../src/shared/infra/database/prisma/PrismaClient";
-import { app } from "../../../src/shared/infra/http/app";
+import { prismaClient } from "../../../../src/shared/infra/database/prisma/PrismaClient";
+import { app } from "../../../../src/shared/infra/http/app";
 
 describe("Authenticate User Route", () => {
   beforeAll(async () => {
