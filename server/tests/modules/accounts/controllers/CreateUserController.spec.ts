@@ -1,7 +1,7 @@
 import { container } from "tsyringe";
 import { CreateUserController } from "../../../../src/modules/accounts/controllers/CreateUserController";
 import { IUsersRepository } from "../../../../src/modules/accounts/repositories/IUsersRepository";
-import { UsersRepositoryInMemory } from "../Doubles/repositories/UsersRepositoryInMemory";
+import { UsersRepositoryInMemory } from "../../../Doubles/repositories/UsersRepositoryInMemory";
 
 
 describe("Create User Controller", () => {

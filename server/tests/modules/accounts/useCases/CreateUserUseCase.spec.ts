@@ -1,6 +1,6 @@
 import { PasswordDoesntMatchError } from "../../../../src/modules/accounts/errors/PasswordDoesntMatchError";
 import { CreateUserUseCase } from "../../../../src/modules/accounts/useCases/CreateUserUseCase";
-import { UsersRepositoryInMemory } from "../Doubles/repositories/UsersRepositoryInMemory";
+import { UsersRepositoryInMemory } from "../../../Doubles/repositories/UsersRepositoryInMemory";
 
 describe("Create User UseCase", () => {
   let usersRepositoryInMemory: UsersRepositoryInMemory;
