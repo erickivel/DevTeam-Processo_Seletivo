@@ -22,7 +22,9 @@ export default {
   // An array of glob patterns indicating a set of files for which coverage information should be collected
   collectCoverageFrom: [
     "<rootDir>/src/**",
+    "!<rootDir>/src/@types/express/**",
     "!<rootDir>/src/modules/**/dtos/**",
+    "!<rootDir>/src/modules/**/repositories/**",
     "!<rootDir>/src/shared/logic/Either.ts",
     "!<rootDir>/src/shared/ports/**",
     "!<rootDir>/src/shared/infra/http/server.ts",

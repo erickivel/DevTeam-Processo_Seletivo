@@ -14,5 +14,38 @@ model Users {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 
+  Tasks    Tasks[]
+  Subjects Subjects[]
+
   @@map("users")
+}
+
+model Subjects {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  userId String
+  user   Users  @relation(fields: [userId], references: [id])
+
+  Tasks Tasks[]
+
+  @@map("subjects")
+}
+
+model Tasks {
+  id        String   @id @default(uuid())
+  name      String
+  done      Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  userId String
+  user   Users  @relation(fields: [userId], references: [id])
+
+  subjectId String
+  subject   Subjects @relation(fields: [subjectId], references: [id])
+
+  @@map("tasks")
 }

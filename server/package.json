@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "prisma migrate dev --schema ./src/shared/infra/database/prisma/schema.prisma && ts-node-dev --respawn --transpile-only --exit-child --ignore-watch node_modules src/shared/infra/http/server.ts",
-    "test": "dotenv -e .env.test -- prisma migrate dev --schema ./src/shared/infra/database/prisma/schema.prisma && dotenv -e .env.test jest --runInBand"
+    "test": "dotenv -e .env.test -- prisma migrate dev --schema ./src/shared/infra/database/prisma/schema.prisma && dotenv -e .env.test -- jest --runInBand"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
