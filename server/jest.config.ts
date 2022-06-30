@@ -25,6 +25,8 @@ export default {
     "!<rootDir>/src/modules/**/dtos/**",
     "!<rootDir>/src/shared/logic/Either.ts",
     "!<rootDir>/src/shared/ports/**",
+    "!<rootDir>/src/shared/infra/http/server.ts",
+    "!<rootDir>/src/swagger.json",
   ],
 
   // The directory where Jest should output its coverage files

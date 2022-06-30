@@ -1,5 +1,5 @@
-import { User } from "../../../../../src/modules/accounts/entities/User";
-import { IUsersRepository } from "../../../../../src/modules/accounts/repositories/IUsersRepository";
+import { User } from "../../../src/modules/accounts/entities/User";
+import { IUsersRepository } from "../../../src/modules/accounts/repositories/IUsersRepository";
 
 export class UsersRepositoryInMemory implements IUsersRepository {
   users: User[] = [];
