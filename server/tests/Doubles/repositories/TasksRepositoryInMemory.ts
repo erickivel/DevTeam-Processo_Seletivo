@@ -18,4 +18,17 @@ export class TasksRepositoryInMemory implements ITasksRepository {
 
     return task || null;
   }
+
+  async findById(id: string): Promise<ITaskData | null> {
+    const task = this.tasks.find(task => task.id === id);
+
+    return task || null;
+  }
+  async update(data: Task): Promise<ITaskData> {
+    const taskIndex = this.tasks.findIndex(task => task.id === data.id);
+
+    this.tasks[taskIndex] = data;
+
+    return this.tasks[taskIndex];
+  }
 }
