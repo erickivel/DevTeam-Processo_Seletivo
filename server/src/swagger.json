@@ -169,10 +169,12 @@
                       "type": "string"
                     },
                     "createdAt": {
-                      "type": "date"
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "updatedAt": {
-                      "type": "date"
+                      "type": "string",
+                      "format": "date-time"
                     }
                   },
                   "token": {
@@ -184,6 +186,97 @@
           },
           "403": {
             "description": "User not exist"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Task"
+        ],
+        "summary": "List tasks by user",
+        "description": "List tasks by user and by subject name (optional)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "subjectName",
+            "in": "query",
+            "description": "Filter by subject name",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tasks listed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "userId": {
+                        "type": "string"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "Tasks": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "done": {
+                              "type": "boolean"
+                            },
+                            "userId": {
+                              "type": "string"
+                            },
+                            "subjectId": {
+                              "type": "string"
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "User or task not exist."
           }
         }
       }
