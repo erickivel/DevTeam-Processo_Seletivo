@@ -140,6 +140,5 @@ describe("Create Task Controller", () => {
     const response = await createTaskController.handle(fakeRequest);
 
     expect(response.statusCode).toBe(500);
-    expect(response.body).not.toBe("User Created!");
   });
 });
