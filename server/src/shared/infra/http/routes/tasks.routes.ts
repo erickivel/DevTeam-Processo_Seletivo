@@ -5,13 +5,16 @@ import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 
 import { CreateTaskController } from "../../../../modules/tasks/controllers/CreateTaskController";
 import { ListTasksByUserController } from "../../../../modules/tasks/controllers/ListTasksByUserController";
+import { UpdateTaskController } from "../../../../modules/tasks/controllers/UpdateTaskController";
 
 const tasksRoutes = Router();
 
 const createTaskController = new CreateTaskController()
 const listTasksByUserController = new ListTasksByUserController();
+const updateTaskController = new UpdateTaskController()
 
 tasksRoutes.post("/", ensureAuthenticated, controllerAdapter(createTaskController));
 tasksRoutes.get("/", ensureAuthenticated, controllerAdapter(listTasksByUserController));
+tasksRoutes.put("/:taskId", ensureAuthenticated, controllerAdapter(updateTaskController));
 
 export { tasksRoutes };

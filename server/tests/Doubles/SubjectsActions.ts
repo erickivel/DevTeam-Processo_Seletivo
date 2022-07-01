@@ -15,4 +15,8 @@ export class SubjectsActions {
 
     return subject;
   };
+
+  async findByName(name: string): Promise<Subject | null> {
+    return await this.subjectsRepository.findByName(name);
+  }
 };
