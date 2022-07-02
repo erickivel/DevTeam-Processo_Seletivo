@@ -369,6 +369,37 @@
             "description": "User or task not exist."
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "Task"
+        ],
+        "summary": "Delete task",
+        "description": "Delete a task",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "description": "The Id of the task to be deleted",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Task Deleted"
+          },
+          "403": {
+            "description": "User or task not exist."
+          }
+        }
       }
     }
   },
