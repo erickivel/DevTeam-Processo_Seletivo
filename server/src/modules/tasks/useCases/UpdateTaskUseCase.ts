@@ -1,4 +1,3 @@
-
 import { injectable, inject } from "tsyringe";
 
 import { Either, left, right } from "../../../shared/logic/Either";
