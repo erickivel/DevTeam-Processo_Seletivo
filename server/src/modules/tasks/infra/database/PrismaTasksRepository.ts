@@ -55,4 +55,12 @@ export class PrismaTasksRepository implements ITasksRepository {
 
     return taskUpdated;
   }
+
+  async deleteOne(id: string): Promise<void> {
+    await prismaClient.tasks.delete({
+      where: {
+        id,
+      }
+    });
+  }
 }

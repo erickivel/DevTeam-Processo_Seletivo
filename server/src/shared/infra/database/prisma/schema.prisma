@@ -14,8 +14,8 @@ model Users {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 
-  Tasks    Tasks[]
-  Subjects Subjects[]
+  tasks    Tasks[]
+  subjects Subjects[]
 
   @@map("users")
 }
@@ -29,7 +29,7 @@ model Subjects {
   userId String
   user   Users  @relation(fields: [userId], references: [id])
 
-  Tasks Tasks[]
+  tasks Tasks[]
 
   @@map("subjects")
 }

@@ -38,7 +38,7 @@ export class PrismaSubjectsRepository implements ISubjectsRepository {
           name: subjectName,
         },
         include: {
-          Tasks: true,
+          tasks: true,
         }
       });
 
@@ -48,11 +48,32 @@ export class PrismaSubjectsRepository implements ISubjectsRepository {
           userId,
         },
         include: {
-          Tasks: true,
+          tasks: true,
         }
       });
     }
 
     return subjects;
+  }
+
+  async findById(id: string): Promise<Subject | null> {
+    const subject = await prismaClient.subjects.findFirst({
+      where: {
+        id,
+      },
+      include: {
+        tasks: true,
+      }
+    });
+
+    return subject;
+  }
+
+  async deleteOne(id: string): Promise<void> {
+    await prismaClient.subjects.delete({
+      where: {
+        id
+      }
+    });
   }
 }
