@@ -70,7 +70,7 @@ describe("List Tasks By User Route", () => {
       id: "subject-id",
       name: "Subject Name",
       userId: "user-id",
-      Tasks: [{
+      tasks: [{
         name: "Task Name",
         done: false,
         subjectId: "subject-id",

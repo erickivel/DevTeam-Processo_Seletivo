@@ -238,7 +238,7 @@
                         "type": "string",
                         "format": "date-time"
                       },
-                      "Tasks": {
+                      "tasks": {
                         "type": "array",
                         "items": {
                           "type": "object",
