@@ -6,4 +6,5 @@ export interface ITasksRepository {
   findByName(name: string): Promise<ITaskData | null>;
   findById(id: string): Promise<ITaskData | null>;
   update(data: Task): Promise<ITaskData>;
+  deleteOne(id: string): Promise<void>;
 }

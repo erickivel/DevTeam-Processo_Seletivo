@@ -27,4 +27,16 @@ export class SubjectsRepositoryInMemory implements ISubjectsRepository {
 
     return subjects;
   }
+
+  async deleteOne(id: string): Promise<void> {
+    const subjectIndex = this.subjects.findIndex(subject => subject.id === id);
+
+    this.subjects.splice(subjectIndex, 1);
+  }
+
+  async findById(id: string): Promise<Subject | null> {
+    const subject = this.subjects.find(subject => subject.id === id);
+
+    return subject || null;
+  }
 }
