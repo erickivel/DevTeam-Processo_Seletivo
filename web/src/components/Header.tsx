@@ -9,7 +9,6 @@ export const Header: React.FC = () => {
       as="header"
       w="100%"
       h="20"
-      position="sticky"
       bg="blue.500"
     >
       <Flex
