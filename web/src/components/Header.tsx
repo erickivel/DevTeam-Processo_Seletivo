@@ -1,11 +1,20 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import { useCallback } from "react";
 import { FiPlus, FiPower } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 import LogoImg from "../assets/logo.svg";
 import { useAuth } from "../contexts/AuthContext";
 
 export const Header: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  const { isAuthenticated, logout } = useAuth();
+
+  const handleLogout = useCallback(() => {
+    logout();
+    navigate("/login");
+  }, [logout, navigate]);
 
   return (
     <Box
@@ -46,6 +55,7 @@ export const Header: React.FC = () => {
             </Flex>
             <Flex
               as="button"
+              onClick={() => handleLogout()}
               ml="10"
               p="2"
               borderRadius="8"

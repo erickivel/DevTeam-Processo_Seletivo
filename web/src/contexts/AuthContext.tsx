@@ -77,6 +77,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
   function logout() {
     localStorage.removeItem("@Impactodo:token");
     setIsAuthenticated(false);
+
+    toast({
+      title: "Usuário deslogado com sucesso",
+      status: "success",
+      duration: 6000,
+      isClosable: true,
+    });
   }
 
   return (
