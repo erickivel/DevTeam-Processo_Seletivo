@@ -2,9 +2,14 @@ import { Checkbox, Flex, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
 
-export const Task: React.FC = () => {
+interface TaskProps {
+  done: boolean;
+  name: string;
+}
+
+export const Task: React.FC<TaskProps> = ({ done, name }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [isDone, setIsDone] = useState(false);
+  const [isDone, setIsDone] = useState(done);
 
   return (
     <Flex
@@ -24,7 +29,7 @@ export const Task: React.FC = () => {
         textDecorationLine={isDone ? "line-through" : ""}
         transition="all 0.3s"
       >
-        Tarefa
+        {name}
       </Text>
 
       <Flex

@@ -1,9 +1,15 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { FiPlus } from "react-icons/fi";
+import { TaskData } from "../../pages/Home";
 
 import { Task } from "./Task";
 
-export const Subject: React.FC = () => {
+interface SubjectProps {
+  name: string;
+  tasks: TaskData[];
+}
+
+export const Subject: React.FC<SubjectProps> = ({ name, tasks }) => {
   return (
     <Flex
       w="100%"
@@ -18,7 +24,7 @@ export const Subject: React.FC = () => {
         align="center"
         mb="6"
       >
-        <Text fontWeight="medium" fontSize="xl">Assunto</Text>
+        <Text fontWeight="medium" fontSize="xl">{name}</Text>
         <Flex
           as="button"
           _hover={{
@@ -29,12 +35,11 @@ export const Subject: React.FC = () => {
           <FiPlus size={30} color="#EB7D3D" />
         </Flex>
       </Flex>
-
-      <Task />
-      <Task />
-      <Task />
-      <Task />
-      <Task />
+      {
+        tasks.map(task => (
+          <Task key={task.id} done={task.done} name={task.name} />
+        ))
+      }
 
     </Flex>
   );

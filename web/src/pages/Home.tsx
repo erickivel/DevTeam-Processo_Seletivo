@@ -1,9 +1,39 @@
 import { Flex, Text, VStack } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 
+import { api } from "../services/api";
+import { useAuth } from "../contexts/AuthContext";
 import { Header } from "../components/Header";
 import { Subject } from "../components/Tasks/Subject";
 
+export interface TaskData {
+  id: string;
+  name: string;
+  done: boolean;
+}
+export interface SubjectData {
+  id: string;
+  name: string;
+  tasks: TaskData[];
+}
+
 const Home: React.FC = () => {
+  const { token } = useAuth();
+
+  const [tasksWithSubjects, setTasksWithSubjects] = useState<SubjectData[]>([]);
+
+  useEffect(() => {
+    api.get("/tasks", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then((response) => {
+      setTasksWithSubjects(response.data)
+    })
+  }, [token]);
+
+  console.log(tasksWithSubjects);
+
   return (
     <>
       <Header />
@@ -25,9 +55,11 @@ const Home: React.FC = () => {
         </Text>
 
         <VStack spacing="6">
-          <Subject />
-          <Subject />
-          <Subject />
+          {
+            tasksWithSubjects.map(subject => (
+              <Subject name={subject.name} key={subject.id} tasks={subject.tasks} />
+            ))
+          }
         </VStack>
 
       </Flex>
