@@ -1,4 +1,5 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { useToast } from "@chakra-ui/react";
+import { createContext, ReactNode, useCallback, useContext, useState } from "react";
 import { api } from "../services/api";
 
 type SignInCredentials = {
@@ -8,8 +9,8 @@ type SignInCredentials = {
 
 type AuthContextData = {
   token: string;
-  signIn: (data: SignInCredentials) => Promise<void>;
-  signOut: () => void;
+  login: (data: SignInCredentials) => Promise<void>;
+  logout: () => void;
   isAuthenticated: boolean;
 }
 
@@ -20,6 +21,8 @@ type AuthProviderProps = {
 export const AuthContext = createContext({} as AuthContextData);
 
 export function AuthProvider({ children }: AuthProviderProps) {
+  const toast = useToast();
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState(() => {
     const token = localStorage.getItem('@Impactodo:token');
@@ -33,7 +36,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return "";
   })
 
-  async function signIn({ name, password }: SignInCredentials) {
+  const login = useCallback(async ({ name, password }: SignInCredentials) => {
     try {
       const response = await api.post("/users/sessions", {
         name,
@@ -49,19 +52,35 @@ export function AuthProvider({ children }: AuthProviderProps) {
       localStorage.setItem('@Impactodo:token', responseToken);
 
       setIsAuthenticated(true);
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
-      throw new Error("Error on signIn");
-    }
-  };
 
-  function signOut() {
+      if (error.response.status === 403) {
+        toast({
+          description: "Nome/senha incorretos",
+          status: "warning",
+          duration: 6000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: "Oops",
+          description: "Erro no servidor",
+          status: "error",
+          duration: 6000,
+          isClosable: true,
+        });
+      }
+    };
+  }, [toast]);
+
+  function logout() {
     localStorage.removeItem("@Impactodo:token");
     setIsAuthenticated(false);
   }
 
   return (
-    <AuthContext.Provider value={{ signIn, signOut, isAuthenticated, token }}>
+    <AuthContext.Provider value={{ login, logout, isAuthenticated, token }}>
       {children}
     </AuthContext.Provider>
   );

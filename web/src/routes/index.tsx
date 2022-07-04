@@ -1,14 +1,28 @@
 import { Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 
-import SignIn from "../pages/SignIn";
-import SignUp from "../pages/SignUp";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
+import { ProtectedRoute } from "./ProtectedRoute";
+import { PublicRoute } from "./PublicRoute";
 
 const AppRoutes: React.FC = () => (
   <Routes>
-    <Route path="/" element={<Home />} />
-    <Route path="signIn" element={<SignIn />} />
-    <Route path="signUp" element={<SignUp />} />
+    <Route path="/" element={
+      <ProtectedRoute>
+        <Home />
+      </ProtectedRoute>
+    } />
+    <Route path="login" element={
+      <PublicRoute>
+        <Login />
+      </PublicRoute>
+    } />
+    <Route path="register" element={
+      <PublicRoute>
+        <Register />
+      </PublicRoute>
+    } />
   </Routes>
 );
 
