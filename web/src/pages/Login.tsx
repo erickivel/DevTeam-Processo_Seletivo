@@ -51,7 +51,16 @@ const Login: React.FC = () => {
         p="16"
         pt="14"
       >
-        <Text mb="8" alignSelf="flex-start" fontFamily="Roboto" color="orange.500" fontSize="4xl" fontWeight="medium">Faça seu login:</Text>
+        <Text
+          mb="8"
+          alignSelf="flex-start"
+          fontFamily="Roboto"
+          color="orange.500"
+          fontSize="4xl"
+          fontWeight="medium"
+        >
+          Faça seu login:
+        </Text>
 
         <Box
           as="form"
