@@ -43,8 +43,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         password
       });
 
-      console.log(response);
-
       const { token: responseToken } = response.data;
 
       setToken(responseToken);
