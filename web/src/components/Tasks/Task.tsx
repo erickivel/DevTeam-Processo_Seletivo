@@ -150,8 +150,17 @@ export const Task: React.FC<TaskProps> = ({ done, name, id, subjectName, subject
 
         setTasksWithSubject(tasksListsUpdated);
       } else {
+        const tasksWithoutTaskToBeUpdated = tasksWithSubjects.map(subject => {
+          if (subject.id === subjectId) {
+            const taskIndex = subject.tasks.findIndex(t => t.id === id);
+            subject.tasks.splice(taskIndex, 1);
+          }
+
+          return subject;
+        })
+
         const tasksListsUpdated = [
-          ...tasksWithSubjects,
+          ...tasksWithoutTaskToBeUpdated,
           {
             id: data.subjectId,
             name: data.subjectName,
