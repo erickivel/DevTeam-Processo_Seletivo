@@ -1,5 +1,6 @@
 import { useToast } from "@chakra-ui/react";
-import { createContext, ReactNode, useCallback, useContext, useState } from "react";
+import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext, useState } from "react";
+import { SubjectData } from "../pages/Home";
 import { api } from "../services/api";
 
 type SignInCredentials = {
@@ -12,6 +13,9 @@ type AuthContextData = {
   login: (data: SignInCredentials) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
+  getTasks: () => void;
+  tasksWithSubjects: SubjectData[];
+  setTasksWithSubject: Dispatch<SetStateAction<SubjectData[]>>;
 }
 
 type AuthProviderProps = {
@@ -22,6 +26,8 @@ export const AuthContext = createContext({} as AuthContextData);
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const toast = useToast();
+
+
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState(() => {
@@ -35,6 +41,26 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     return "";
   })
+
+  const [tasksWithSubjects, setTasksWithSubject] = useState<SubjectData[]>([]);
+
+  const getTasks = useCallback(() => {
+    api.get("/tasks", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then((response) => {
+      setTasksWithSubject(response.data)
+    }).catch(() => {
+      toast({
+        title: "Oops! Erro no servidor",
+        description: "Não foi possível obter as tarefas",
+        duration: 6000,
+        status: "error",
+        isClosable: true,
+      });
+    })
+  }, [toast, token]);
 
   const login = useCallback(async ({ name, password }: SignInCredentials) => {
     try {
@@ -85,7 +111,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   return (
-    <AuthContext.Provider value={{ login, logout, isAuthenticated, token }}>
+    <AuthContext.Provider value={{ login, logout, isAuthenticated, token, getTasks, setTasksWithSubject, tasksWithSubjects }}>
       {children}
     </AuthContext.Provider>
   );

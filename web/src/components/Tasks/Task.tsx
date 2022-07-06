@@ -1,21 +1,186 @@
-import { Checkbox, Flex, Text, useDisclosure, VStack } from "@chakra-ui/react";
-import { useState } from "react";
+import { SyntheticEvent, useCallback, useState } from "react";
+
+import { Box, Checkbox, Flex, Text, useDisclosure, useToast, VStack } from "@chakra-ui/react";
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
+
 import { BaseModal } from "../BaseModal";
 import { Button } from "../Form/Button";
 import { Input } from "../Form/Input";
+import { api } from "../../services/api";
+import { useAuth } from "../../contexts/AuthContext";
 
 interface TaskProps {
+  id: string;
   done: boolean;
   name: string;
   subjectName: string;
+  subjectId: string;
 }
 
-export const Task: React.FC<TaskProps> = ({ done, name, subjectName }) => {
+interface InputErrors {
+  taskName: {
+    message: string
+  },
+  subjectName: {
+    message: string;
+  }
+}
+
+export const Task: React.FC<TaskProps> = ({ done, name, id, subjectName, subjectId }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
 
   const [isHovered, setIsHovered] = useState(false);
   const [isDone, setIsDone] = useState(done);
+  const [taskNameValue, setTaskNameValue] = useState(name);
+  const [subjectNameValue, setSubjectNameValue] = useState(subjectName);
+  const [inputErrors, setInputErrors] = useState<InputErrors>({} as InputErrors);
+
+  const { token, tasksWithSubjects, setTasksWithSubject } = useAuth();
+
+  const handleDeleteTask = useCallback(async (id: string) => {
+    try {
+      await api.delete(`/tasks/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      const updatedTasksList = tasksWithSubjects.map(subject => {
+        if (subject.id === subjectId) {
+          const taskIndex = subject.tasks.findIndex(t => t.id === id);
+
+          subject.tasks.splice(taskIndex, 1);
+        }
+
+        return subject;
+      })
+
+      setTasksWithSubject(updatedTasksList);
+    } catch (error) {
+      toast({
+        title: "Oops",
+        description: "Erro no servidor",
+        status: "error",
+        duration: 6000,
+        isClosable: true,
+      });
+    }
+  }, [token, toast, setTasksWithSubject, tasksWithSubjects, subjectId]);
+
+  const handleEditTask = useCallback(async (event: SyntheticEvent) => {
+    try {
+      event.preventDefault();
+
+      const target = event.target as typeof event.target & {
+        taskName: { value: string }
+        subjectName: { value: string }
+      }
+
+      if (target.subjectName.value === "") {
+        setInputErrors({
+          ...inputErrors,
+          subjectName: {
+            message: "Nome do assunto é obrigatório"
+          }
+        })
+
+        return;
+      }
+
+      if (target.taskName.value === "") {
+        setInputErrors({
+          ...inputErrors,
+          taskName: {
+            message: "Nome da tarefa é obrigatório"
+          }
+        })
+
+        return;
+      }
+
+      const { data } = await api.put(`/tasks/${id}`, {
+        taskName: target.taskName.value,
+        subjectName: target.subjectName.value
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+      const subjectExists = tasksWithSubjects.find(subject => subject.id === data.subjectId);
+
+      if (subjectName === target.subjectName.value) {
+        const tasksListsUpdated = tasksWithSubjects.map(subject => {
+          if (subject.id === subjectId) {
+            const taskIndex = subject.tasks.findIndex(t => t.id === id);
+            subject.tasks[taskIndex] = {
+              ...subject.tasks[taskIndex],
+              name: target.taskName.value
+            }
+
+            return subject;
+          }
+
+          return subject;
+        });
+
+        setTasksWithSubject(tasksListsUpdated);
+      } else if (subjectExists) {
+        const tasksListsUpdated = tasksWithSubjects.map(subject => {
+
+          if (subject.id === subjectId) {
+            const taskIndex = subject.tasks.findIndex(t => t.id === id);
+            subject.tasks.splice(taskIndex, 1);
+          }
+
+          if (subject.name === target.subjectName.value) {
+            subject.tasks = [
+              ...subject.tasks,
+              {
+                id,
+                name: target.taskName.value,
+                done,
+              }
+            ]
+          }
+
+          return subject;
+        });
+
+        setTasksWithSubject(tasksListsUpdated);
+      } else {
+        const tasksListsUpdated = [
+          ...tasksWithSubjects,
+          {
+            id: data.subjectId,
+            name: data.subjectName,
+            tasks: [
+              {
+                id,
+                done,
+                name: target.taskName.value
+              }
+            ]
+          }
+        ]
+
+        setTasksWithSubject(tasksListsUpdated);
+
+      }
+
+      onClose()
+    } catch (error) {
+      toast({
+        title: "Oops",
+        description: "Erro no servidor",
+        status: "error",
+        duration: 6000,
+        isClosable: true,
+      });
+    }
+
+  }, [setTasksWithSubject, subjectId, tasksWithSubjects, inputErrors, toast, id, token, done, onClose, subjectName]);
 
   return (
     <Flex
@@ -60,19 +225,44 @@ export const Task: React.FC<TaskProps> = ({ done, name, subjectName }) => {
 
         <BaseModal
           isOpen={isOpen}
-          onClose={onClose}
+          onClose={() => {
+            onClose()
+            setTaskNameValue(name)
+            setSubjectNameValue(subjectName);
+            setInputErrors({} as InputErrors);
+          }}
           title="Editar tarefa:"
         >
-          <VStack spacing="3">
-            <Input inputName="taskName" label="Nome:" type="text" value={name} />
-            <Input inputName="subjectName" label="Assunto:" type="text" value={subjectName} />
-            <Button mt="6" type="submit">Salvar</Button>
-          </VStack>
+          <Box
+            as="form"
+            onSubmit={handleEditTask}
+          >
+            <VStack spacing="3">
+              <Input
+                inputName="taskName"
+                label="Nome:"
+                type="text"
+                error={inputErrors.taskName}
+                value={taskNameValue}
+                onChange={(e) => setTaskNameValue(e.target.value)}
+              />
+              <Input
+                inputName="subjectName"
+                label="Assunto:"
+                type="text"
+                error={inputErrors.subjectName}
+                value={subjectNameValue}
+                onChange={(e) => setSubjectNameValue(e.target.value)}
+              />
+            </VStack>
+            <Button type="submit">Salvar</Button>
+          </Box>
         </BaseModal>
 
         <Flex
           as="button"
           ml="4"
+          onClick={() => handleDeleteTask(id)}
           _hover={{
             filter: "brightness(150%)",
           }}
