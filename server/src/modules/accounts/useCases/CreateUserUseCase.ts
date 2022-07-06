@@ -8,6 +8,7 @@ import { PasswordDoesntMatchError } from "../errors/PasswordDoesntMatchError";
 
 import { IUsersRepository } from "../repositories/IUsersRepository";
 import { IUserResponse } from "../dtos/IUserResponse";
+import { UserAlreadyExistsError } from "../errors/UserAlreadyExistsError";
 
 @injectable()
 export class CreateUserUseCase {
@@ -19,7 +20,18 @@ export class CreateUserUseCase {
     name,
     password,
     passwordConfirmation,
-  }: ICreateUserDTO): Promise<Either<PasswordDoesntMatchError, IUserResponse>> {
+  }: ICreateUserDTO): Promise<
+    Either<
+      PasswordDoesntMatchError |
+      UserAlreadyExistsError,
+      IUserResponse>
+  > {
+    const userExists = await this.usersRepository.findByName(name);
+
+    if (userExists) {
+      return left(new UserAlreadyExistsError());
+    }
+
     if (password !== passwordConfirmation) {
       return left(new PasswordDoesntMatchError());
     }
