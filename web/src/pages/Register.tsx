@@ -48,13 +48,23 @@ const Register: React.FC = () => {
 
       navigate("/login");
     } catch (error: any) {
-      toast({
-        title: "Oops",
-        description: "Erro no servidor",
-        status: "error",
-        duration: 6000,
-        isClosable: true,
-      });
+      if (error.response.data === 'This user name is already taken') {
+        toast({
+          title: "Este nome de usuário já esta em uso",
+          description: "Tente outro nome",
+          status: "warning",
+          duration: 5000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: "Oops",
+          description: "Erro no servidor",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
     }
   }
 
