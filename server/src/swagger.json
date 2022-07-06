@@ -44,7 +44,7 @@
             "description": "Created"
           },
           "403": {
-            "description": "Passwords are not matching"
+            "description": "Passwords are not matching or This user name is already taken"
           }
         }
       }
