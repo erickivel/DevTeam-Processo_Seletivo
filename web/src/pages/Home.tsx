@@ -1,12 +1,16 @@
-import { Flex, Text, useToast, VStack } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
+import { Box, Flex, Text, useDisclosure, useToast, VStack } from "@chakra-ui/react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 import { api } from "../services/api";
 import { useAuth } from "../contexts/AuthContext";
 import { Header } from "../components/Header";
 import { Subject } from "../components/Tasks/Subject";
-import { SubmitHandler } from "react-hook-form";
+import { BaseModal } from "../components/BaseModal";
+import { Input } from "../components/Form/Input";
+import { Button } from "../components/Form/Button";
 
 export interface TaskData {
   id: string;
@@ -25,38 +29,35 @@ export interface CreateTaskFormData {
 }
 
 export const createTaskFormSchema = yup.object().shape({
-  name: yup.string().required("Nome da tarefa obrigatório"),
-  subjectName: yup.string().required("Nome do assunto obrigatório"),
+  name: yup.string().required("Nome da tarefa é obrigatório"),
+  subjectName: yup.string().required("Nome do assunto é obrigatório"),
 });
 
 const Home: React.FC = () => {
   const toast = useToast();
+  const { isOpen: isOpenCreateTaskModal, onOpen: openCreateTaskModal, onClose: closeCreateTaskModal } = useDisclosure();
 
-  const { token } = useAuth();
+  const [selectedSubject, setSelectedSubject] = useState("");
 
-  const [tasksWithSubjects, setTasksWithSubjects] = useState<SubjectData[]>([]);
+  const { register, handleSubmit, formState, reset } = useForm<CreateTaskFormData>({
+    resolver: yupResolver(createTaskFormSchema),
+  })
+
+  const { errors } = formState;
+
+  const { token, getTasks, tasksWithSubjects, setTasksWithSubject } = useAuth();
+
 
   useEffect(() => {
-    api.get("/tasks", {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }).then((response) => {
-      setTasksWithSubjects(response.data)
-    }).catch(() => {
-      toast({
-        title: "Oops!",
-        description: "Erro no servidor",
-        duration: 6000,
-        status: "error",
-        isClosable: true,
-      });
-    })
-  }, [token, toast]);
+    getTasks();
+  }, [getTasks]);
 
 
   const handleCreateTask: SubmitHandler<CreateTaskFormData> = useCallback(async (values) => {
     try {
+      values.subjectName = selectedSubject ? selectedSubject : values.subjectName;
+      setSelectedSubject("");
+
       const { data } = await api.post("/tasks", values, {
         headers: {
           Authorization: `Bearer ${token}`
@@ -64,10 +65,10 @@ const Home: React.FC = () => {
       })
 
       const subjectExists = tasksWithSubjects.find(s => s.name === values.subjectName);
-      console.log(subjectExists)
+
       if (subjectExists) {
         console.log("exists")
-        setTasksWithSubjects(tasksWithSubjects.map(subject => {
+        setTasksWithSubject(tasksWithSubjects.map(subject => {
           if (subject.name === values.subjectName) {
             return {
               ...subject,
@@ -99,17 +100,77 @@ const Home: React.FC = () => {
           }
         ];
 
-
-        setTasksWithSubjects(tasksUpdated)
+        setTasksWithSubject(tasksUpdated)
       }
-    } catch (error) {
 
+      closeCreateTaskModal();
+      reset();
+    } catch (error) {
+      toast({
+        title: "Oops",
+        description: "Erro no servidor",
+        status: "error",
+        duration: 6000,
+        isClosable: true,
+      });
     }
-  }, [token])
+  }, [tasksWithSubjects, setTasksWithSubject, toast, token, closeCreateTaskModal, reset, selectedSubject])
 
   return (
     <>
-      <Header handleCreateTask={handleCreateTask} />
+      <Header openCreateTaskModal={openCreateTaskModal} />
+
+      <BaseModal
+        isOpen={isOpenCreateTaskModal}
+        onClose={() => {
+          closeCreateTaskModal()
+          setSelectedSubject("")
+          reset()
+        }}
+        title="Nova tarefa:"
+      >
+        <Box
+          as="form"
+          onSubmit={handleSubmit(handleCreateTask)}
+        >
+          <VStack spacing="3">
+            <Input
+              inputName="name"
+              label="Nome:"
+              type="text"
+              {...register("name")}
+              error={errors.name}
+            />
+            {selectedSubject ? (
+              <Input
+                inputName="subjectName"
+                label="Assunto:"
+                type="text"
+                {...register("subjectName")}
+                value={selectedSubject}
+                borderColor="gray.400"
+                focusBorderColor="gray.400"
+                color="gray.400"
+                _hover={{
+                  borderColor: "gray.400"
+                }}
+                pointerEvents="none"
+              />
+            ) : (
+              <Input
+                inputName="subjectName"
+                label="Assunto:"
+                type="text"
+                {...register("subjectName")}
+                error={errors.subjectName}
+              />
+            )}
+          </VStack>
+          <Button type="submit">Criar</Button>
+        </Box>
+      </BaseModal>
+
+
 
       <Flex
         w="100%"
@@ -129,9 +190,20 @@ const Home: React.FC = () => {
 
         <VStack spacing="6">
           {
-            tasksWithSubjects.map(subject => (
-              <Subject name={subject.name} key={subject.id} tasks={subject.tasks} />
-            ))
+            tasksWithSubjects.map(subject => {
+              if (subject.tasks.length !== 0) {
+                return (
+                  <Subject
+                    id={subject.id}
+                    setSelectedSubject={setSelectedSubject}
+                    openCreateTaskWithSubjectModal={openCreateTaskModal}
+                    name={subject.name}
+                    key={subject.id}
+                    tasks={subject.tasks}
+                  />
+                )
+              }
+            })
           }
         </VStack>
 

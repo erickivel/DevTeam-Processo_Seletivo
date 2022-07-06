@@ -1,32 +1,21 @@
-import { Box, Flex, Image, Text, useDisclosure, VStack } from "@chakra-ui/react";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { useCallback } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+
+import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import { FiPlus, FiPower } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
 import LogoImg from "../assets/logo.svg";
 import { useAuth } from "../contexts/AuthContext";
-import { CreateTaskFormData, createTaskFormSchema } from "../pages/Home";
-import { BaseModal } from "./BaseModal";
-import { Button } from "./Form/Button";
-import { Input } from "./Form/Input";
+
 
 interface HeaderProps {
-  handleCreateTask?: SubmitHandler<CreateTaskFormData>;
+  openCreateTaskModal?: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ handleCreateTask }) => {
+export const Header: React.FC<HeaderProps> = ({ openCreateTaskModal }) => {
   const navigate = useNavigate();
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { isAuthenticated, logout } = useAuth();
-
-  const { register, handleSubmit, formState } = useForm<CreateTaskFormData>({
-    resolver: yupResolver(createTaskFormSchema)
-  })
-
-  const { errors } = formState;
 
   const handleLogout = useCallback(() => {
     logout();
@@ -52,11 +41,11 @@ export const Header: React.FC<HeaderProps> = ({ handleCreateTask }) => {
       >
         <Image src={LogoImg} alt="Logo ImpacTo-do" />
 
-        {(isAuthenticated && handleCreateTask) && (
+        {isAuthenticated && (
           <Flex>
             <Flex
               as="button"
-              onClick={onOpen}
+              onClick={openCreateTaskModal}
               py="2"
               px="3"
               borderRadius={8}
@@ -90,34 +79,7 @@ export const Header: React.FC<HeaderProps> = ({ handleCreateTask }) => {
               <Text ml="2" color="gray.50" fontSize="xl">Sair</Text>
             </Flex>
 
-            <BaseModal
-              isOpen={isOpen}
-              onClose={onClose}
-              title="Nova tarefa:"
-            >
-              <Box
-                as="form"
-                onSubmit={handleSubmit(handleCreateTask)}
-              >
-                <VStack spacing="3">
-                  <Input
-                    inputName="name"
-                    label="Nome:"
-                    type="text"
-                    {...register("name")}
-                    error={errors.name}
-                  />
-                  <Input
-                    inputName="subjectName"
-                    label="Assunto:"
-                    type="text"
-                    {...register("subjectName")}
-                    error={errors.name}
-                  />
-                </VStack>
-                <Button type="submit">Criar</Button>
-              </Box>
-            </BaseModal>
+
           </Flex>
         )}
       </Flex>
