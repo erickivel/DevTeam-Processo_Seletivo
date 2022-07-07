@@ -316,11 +316,15 @@
                   },
                   "subjectName": {
                     "type": "string"
+                  },
+                  "done": {
+                    "type": "boolean"
                   }
                 },
                 "example": {
                   "taskName": "Task example name",
-                  "subjectName": "Subject example name"
+                  "subjectName": "Subject example name",
+                  "done": true
                 }
               }
             }
