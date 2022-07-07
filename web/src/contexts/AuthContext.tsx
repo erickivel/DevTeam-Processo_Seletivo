@@ -50,7 +50,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         Authorization: `Bearer ${token}`
       }
     }).then((response) => {
-      console.log(response)
       setTasksWithSubject(response.data)
     }).catch(() => {
       toast({
