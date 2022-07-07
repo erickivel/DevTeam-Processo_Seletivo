@@ -21,7 +21,9 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(expressWinston.logger({
   transports: [
-    new winston.transports.Console()
+    new winston.transports.Console({
+      silent: process.env.NODE_ENV === "test" ? true : false
+    }),
   ],
   meta: true, // optional: control whether you want to log the meta data about the request (default to true)
   msg: "HTTP {{req.method}} {{req.url}} {{res.statusCode}}", // optional: customize the default logging message. E.g. "{{res.statusCode}} {{req.method}} {{res.responseTime}}ms {{req.url}}"

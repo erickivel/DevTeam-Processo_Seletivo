@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { verify } from "jsonwebtoken";
+import { logger } from "../logger";
 
 
 
@@ -11,6 +12,7 @@ export async function ensureAuthenticated(request: Request, response: Response, 
   const authHeader = request.headers.authorization;
 
   if (!authHeader) {
+    logger.warn(`EnsureAuthenticated Middleware Token is missing!`)
     response.status(401).json("Token missing");
     return;
   }
@@ -30,6 +32,7 @@ export async function ensureAuthenticated(request: Request, response: Response, 
 
     next();
   } catch (error) {
+    logger.warn(`EnsureAuthenticated Middleware Token is invalid!`)
     response.status(401).json("Invalid token");
   }
 };
