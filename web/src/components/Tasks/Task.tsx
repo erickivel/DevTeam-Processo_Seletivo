@@ -203,6 +203,22 @@ export const Task: React.FC<TaskProps> = ({ done, name, id, subjectName, subject
           Authorization: `Bearer ${token}`
         }
       })
+
+      const tasksListsUpdated = tasksWithSubjects.map(subject => {
+        if (subject.id === subjectId) {
+          const taskIndex = subject.tasks.findIndex(t => t.id === id);
+          subject.tasks[taskIndex] = {
+            ...subject.tasks[taskIndex],
+            done: !isDone
+          }
+
+          return subject;
+        }
+
+        return subject;
+      });
+
+      setTasksWithSubject(tasksListsUpdated);
     } catch (error) {
       toast({
         title: "Oops",
@@ -212,7 +228,7 @@ export const Task: React.FC<TaskProps> = ({ done, name, id, subjectName, subject
         isClosable: true,
       });
     }
-  }, [id, isDone, subjectNameValue, taskNameValue, token, toast]);
+  }, [id, isDone, subjectNameValue, setTasksWithSubject, tasksWithSubjects, subjectId, taskNameValue, token, toast]);
 
   return (
     <Flex
