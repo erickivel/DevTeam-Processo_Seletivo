@@ -67,7 +67,6 @@ const Home: React.FC = () => {
       const subjectExists = tasksWithSubjects.find(s => s.name === values.subjectName);
 
       if (subjectExists) {
-        console.log("exists")
         setTasksWithSubject(tasksWithSubjects.map(subject => {
           if (subject.name === values.subjectName) {
             return {

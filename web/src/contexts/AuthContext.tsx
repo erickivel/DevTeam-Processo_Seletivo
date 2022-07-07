@@ -50,6 +50,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         Authorization: `Bearer ${token}`
       }
     }).then((response) => {
+      console.log(response)
       setTasksWithSubject(response.data)
     }).catch(() => {
       toast({
@@ -77,8 +78,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       setIsAuthenticated(true);
     } catch (error: any) {
-      console.log(error);
-
       if (error.response.status === 403) {
         toast({
           description: "Nome/senha incorretos",
