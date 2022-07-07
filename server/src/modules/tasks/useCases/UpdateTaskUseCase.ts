@@ -57,7 +57,9 @@ export class UpdateTaskUseCase {
       return left(new TaskDoesNotExistError(taskId))
     }
 
-    let subject = await this.subjectsRepository.findByName(subjectName);
+    let subjectsByUser = await this.subjectsRepository.findByUser(userId, undefined);
+
+    let subject = subjectsByUser.find(s => s.name === subjectName);
 
     if (!subject) {
       const subjectToBeCreated = new Subject({
