@@ -65,7 +65,8 @@ describe("Update Task Route", () => {
       })
       .send({
         taskName: "New Task Name",
-        subjectName: "New Subject Name"
+        subjectName: "New Subject Name",
+        done: true
       })
       .expect(201);
 
@@ -73,7 +74,8 @@ describe("Update Task Route", () => {
       id: "task-id",
       name: "New Task Name",
       userId: "user-id",
-      subjectName: "New Subject Name"
+      subjectName: "New Subject Name",
+      done: true
     };
 
 

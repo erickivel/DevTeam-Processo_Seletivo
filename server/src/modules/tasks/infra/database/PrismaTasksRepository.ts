@@ -48,6 +48,7 @@ export class PrismaTasksRepository implements ITasksRepository {
       },
       data: {
         name: data.name,
+        done: data.done,
         updatedAt: data.updatedAt,
         subjectId: data.subjectId,
       }

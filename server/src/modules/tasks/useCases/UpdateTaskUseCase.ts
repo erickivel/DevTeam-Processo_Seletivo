@@ -16,6 +16,7 @@ interface IRequest {
   taskId: string;
   taskName: string;
   subjectName: string;
+  done: boolean;
 }
 
 interface IResponse extends ITaskData {
@@ -37,6 +38,7 @@ export class UpdateTaskUseCase {
     taskId,
     taskName,
     subjectName,
+    done
   }: IRequest): Promise<
     Either<
       UserDoesNotExistError |
@@ -69,7 +71,7 @@ export class UpdateTaskUseCase {
     const taskToBeCreated = new Task({
       id: taskId,
       name: taskName,
-      done: taskExists.done,
+      done,
       subjectId: subject.id,
       userId,
       createdAt: taskExists.createdAt,

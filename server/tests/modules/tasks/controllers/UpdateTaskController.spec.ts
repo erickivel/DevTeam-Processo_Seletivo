@@ -66,7 +66,8 @@ describe("Update Task Controller", () => {
       },
       body: {
         taskName: "New Task Name",
-        subjectName: "New Subject Name"
+        subjectName: "New Subject Name",
+        done: true
       },
       user: {
         id: "user-id",
@@ -80,7 +81,8 @@ describe("Update Task Controller", () => {
     const expectedResponse = {
       id: "task-id",
       name: "New Task Name",
-      subjectName: "New Subject Name"
+      subjectName: "New Subject Name",
+      done: true
     };
 
     expect(response.body).toMatchObject(expectedResponse);
@@ -130,7 +132,8 @@ describe("Update Task Controller", () => {
       },
       body: {
         taskName: "New Task Name",
-        subjectName: "New Subject Name"
+        subjectName: "New Subject Name",
+        done: true,
       },
       user: {
         id: invalidUserId,
@@ -181,7 +184,8 @@ describe("Update Task Controller", () => {
       },
       body: {
         taskName: "New Task Name",
-        subjectName: "New Subject Name"
+        subjectName: "New Subject Name",
+        done: true
       },
       user: {
       }
@@ -234,7 +238,8 @@ describe("Update Task Controller", () => {
       },
       body: {
         taskName: "New Task Name",
-        subjectName: "New Subject Name"
+        subjectName: "New Subject Name",
+        done: true
       },
       user: {
         id: "user-id",

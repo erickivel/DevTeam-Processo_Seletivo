@@ -56,6 +56,7 @@ describe("Update Task UseCase", () => {
       userId: user.id,
       taskId: "task-id",
       taskName: "New Task Name",
+      done: true,
       subjectName: "New Subject Name"
     });
 
@@ -64,6 +65,7 @@ describe("Update Task UseCase", () => {
     const expectedResponse = {
       id: "task-id",
       name: "New Task Name",
+      done: true
     };
 
     expect(responseOrError.isRight()).toBeTruthy();
@@ -106,7 +108,8 @@ describe("Update Task UseCase", () => {
       userId: user.id,
       taskId: invalidTaskId,
       taskName: "New Task Name",
-      subjectName: "New Subject Name"
+      subjectName: "New Subject Name",
+      done: true,
     });
 
     expect(responseOrError.isLeft()).toBeTruthy();
@@ -144,7 +147,8 @@ describe("Update Task UseCase", () => {
       userId: invalidUserId,
       taskId: "task-id",
       taskName: "New Task Name",
-      subjectName: "New Subject Name"
+      subjectName: "New Subject Name",
+      done: true,
     });
 
     expect(responseOrError.isLeft()).toBeTruthy();
