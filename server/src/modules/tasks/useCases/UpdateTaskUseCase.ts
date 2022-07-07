@@ -2,12 +2,12 @@ import { injectable, inject } from "tsyringe";
 
 import { Either, left, right } from "../../../shared/logic/Either";
 
-import { ITasksRepository } from "../repositories/ITasksRepository";
-import { ISubjectsRepository } from "../repositories/ISubjectsRepository";
-import { Subject } from "../entities/Subject";
 import { IUsersRepository } from "../../accounts/repositories/IUsersRepository";
 import { UserDoesNotExistError } from "../errors/UserDoesNotExistError";
+import { ITasksRepository } from "../repositories/ITasksRepository";
+import { ISubjectsRepository } from "../repositories/ISubjectsRepository";
 import { ITaskData } from "../dtos/ITaskData";
+import { Subject } from "../entities/Subject";
 import { Task } from "../entities/Task";
 import { TaskDoesNotExistError } from "../errors/TaskDoesNotExistError";
 

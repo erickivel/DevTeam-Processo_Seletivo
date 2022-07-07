@@ -2,9 +2,9 @@ import { injectable, inject } from "tsyringe";
 
 import { Either, left, right } from "../../../shared/logic/Either";
 
+import { IUsersRepository } from "../../accounts/repositories/IUsersRepository";
 import { ITasksRepository } from "../repositories/ITasksRepository";
 import { ISubjectsRepository } from "../repositories/ISubjectsRepository";
-import { IUsersRepository } from "../../accounts/repositories/IUsersRepository";
 import { UserDoesNotExistError } from "../errors/UserDoesNotExistError";
 import { TaskDoesNotExistError } from "../errors/TaskDoesNotExistError";
 

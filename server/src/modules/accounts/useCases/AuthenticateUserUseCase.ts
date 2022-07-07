@@ -3,8 +3,8 @@ import { inject, injectable } from "tsyringe";
 import { sign } from "jsonwebtoken";
 
 import { Either, left, right } from "../../../shared/logic/Either";
-import { IncorrectCredentialsError } from "../errors/IncorrectCredentialsError";
 import { IUsersRepository } from "../repositories/IUsersRepository";
+import { IncorrectCredentialsError } from "../errors/IncorrectCredentialsError";
 
 interface IRequest {
   name: string;

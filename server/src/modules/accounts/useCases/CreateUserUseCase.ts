@@ -3,11 +3,10 @@ import { hash } from "bcrypt";
 
 import { Either, left, right } from "../../../shared/logic/Either";
 import { ICreateUserDTO } from "../dtos/ICreateUserDTO";
-import { User } from "../entities/User";
-import { PasswordDoesntMatchError } from "../errors/PasswordDoesntMatchError";
-
-import { IUsersRepository } from "../repositories/IUsersRepository";
 import { IUserResponse } from "../dtos/IUserResponse";
+import { User } from "../entities/User";
+import { IUsersRepository } from "../repositories/IUsersRepository";
+import { PasswordDoesntMatchError } from "../errors/PasswordDoesntMatchError";
 import { UserAlreadyExistsError } from "../errors/UserAlreadyExistsError";
 
 @injectable()

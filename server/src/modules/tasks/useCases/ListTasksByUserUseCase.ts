@@ -2,10 +2,10 @@ import { injectable, inject } from "tsyringe";
 
 import { Either, left, right } from "../../../shared/logic/Either";
 
-import { ISubjectsRepository } from "../repositories/ISubjectsRepository";
 import { IUsersRepository } from "../../accounts/repositories/IUsersRepository";
-import { UserDoesNotExistError } from "../errors/UserDoesNotExistError";
+import { ISubjectsRepository } from "../repositories/ISubjectsRepository";
 import { Subject } from "../entities/Subject";
+import { UserDoesNotExistError } from "../errors/UserDoesNotExistError";
 
 interface IRequest {
   userId: string;
