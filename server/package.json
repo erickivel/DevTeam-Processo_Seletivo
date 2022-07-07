@@ -9,6 +9,9 @@
     "dev": "prisma migrate dev --schema ./src/shared/infra/database/prisma/schema.prisma && ts-node-dev --respawn --transpile-only --exit-child --ignore-watch node_modules src/shared/infra/http/server.ts",
     "test": "NODE_ENV=test dotenv -e .env.test -- prisma migrate dev --schema ./src/shared/infra/database/prisma/schema.prisma && dotenv -e .env.test -- jest --runInBand"
   },
+  "engines": {
+    "node": ">=16.14.0"
+  },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.12",
