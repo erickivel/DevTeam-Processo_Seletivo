@@ -101,7 +101,8 @@ export const Task: React.FC<TaskProps> = ({ done, name, id, subjectName, subject
 
       const { data } = await api.put(`/tasks/${id}`, {
         taskName: target.taskName.value,
-        subjectName: target.subjectName.value
+        subjectName: target.subjectName.value,
+        done: isDone,
       }, {
         headers: {
           Authorization: `Bearer ${token}`
@@ -189,7 +190,29 @@ export const Task: React.FC<TaskProps> = ({ done, name, id, subjectName, subject
       });
     }
 
-  }, [setTasksWithSubject, subjectId, tasksWithSubjects, inputErrors, toast, id, token, done, onClose, subjectName]);
+  }, [setTasksWithSubject, subjectId, tasksWithSubjects, inputErrors, toast, id, token, done, onClose, subjectName, isDone]);
+
+  const handleChangeTaskDone = useCallback(async () => {
+    try {
+      await api.put(`/tasks/${id}`, {
+        taskName: taskNameValue,
+        subjectName: subjectNameValue,
+        done: !isDone
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+    } catch (error) {
+      toast({
+        title: "Oops",
+        description: "Erro no servidor",
+        status: "error",
+        duration: 6000,
+        isClosable: true,
+      });
+    }
+  }, [id, isDone, subjectNameValue, taskNameValue, token, toast]);
 
   return (
     <Flex
@@ -203,7 +226,10 @@ export const Task: React.FC<TaskProps> = ({ done, name, id, subjectName, subject
         size="lg"
         borderColor="gray.600"
         isChecked={isDone}
-        onChange={() => setIsDone(!isDone)}
+        onChange={() => {
+          handleChangeTaskDone()
+          setIsDone(!isDone)
+        }}
       />
       <Text
         ml="6"
@@ -211,7 +237,10 @@ export const Task: React.FC<TaskProps> = ({ done, name, id, subjectName, subject
         textDecorationLine={isDone ? "line-through" : ""}
         transition="all 0.3s"
         cursor="pointer"
-        onClick={() => setIsDone(!isDone)}
+        onClick={() => {
+          handleChangeTaskDone()
+          setIsDone(!isDone)
+        }}
       >
         {name}
       </Text>
