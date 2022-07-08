@@ -1,48 +1,17 @@
-# Processo Seletivo Dev Team
-
-***Texto explicando o que é o Dev team***
-
-## Para fazer parte do Dev Team basta resolver o desafio abaixo
-
- Criar um sistema onde os usuários poderão cadastrar suas respectivas tarefas.
-
-## Lista de Tarefas
-
-O usuário podera cadastrar uma nova tarefa com as seguintes informações:
--   **Tarefa**. Ex.: "Lavar a louça" ;
--   **Assunto**. Ex.: "Casa", "Escola", "Trabalho";
-
-**Todos**  os campos são de preenchimento obrigatório.
-
-## Funcionalidades
-
--   **Tarefas:**  CRUD;
-
-## Requisitos
-
-- O backend da aplicação deverá ser uma API Rest feita com JavaScript/TypeScript;
-- A Api deverá ser documentada;
-- Ter um banco de dados para armazenar as informações sobre filhos e as tarefas;
-- Deverá também ter testes automatizados;
-- O Frontend da aplicação deverá ser feito usando alguma das seguintes ferramentas:
-	- VueJs
-	- ReactJs
-	- Angular
-- O Frontend deverá buscar as informações na API através de requisições HTTP
-- O prazo para a realização desse projeto é de **duas semanas (14 dias)**.
-
-## Ganha mais pontos
-
-- Desenvolver utilizando as boas práticas de organização de código;
-- Utilizar boas praticas de versionamento;
-- Criar uma solução de autenticação.
-- Criar um container para executar o projeto
-- Implementar logs na aplicação
-
-## Submissão
-
-Crie um fork do teste para acompanharmos o seu desenvolvimento através dos seus commits.
-
-## Obrigado!
-
-Agradecemos sua participação no teste. Boa sorte!  😄
+## :rocket: Getting Started With Docker 
+ 
+ 1. Install docker: https://docs.docker.com/get-docker/ <br>
+ 2. Install docker-compose: https://docs.docker.com/compose/install/ <br>
+ 3. Clone this repo: `git clone https://github.com/erickivel/DevTeam-Processo_Seletivo.git` <br>
+ 4. Move to the directory: `cd DevTeam-Processo_Seletivo` <br>
+ 5. Move to the directory server: `cd server` and run `npm install` or `yarn` to install the dependencies <br>
+ 6. Rename the file `.env.example` to `.env`  <br>
+ 7. Move to the directory web: `cd ../web` and run `npm install` or `yarn` to install the dependencies <br>
+ 8. Move to the root: `cd ..` and run `docker-compose up` to build, create, start, and attach the containers  <br>
+ 9. The server runs on: http://localhost:3333 <br>
+ 10. API docs runs on: http://localhost:3333/api-docs <br>
+ 11. The react app runs on: http://localhost:3000 <br> 
+  
+To stop and remove the containers, run `docker-compose down`  
+  
+Note: If `docker-compose up` or `docker-compose down` doesn't work, run respectively `sudo docker-compose up` or `sudo docker-compose down
