@@ -14,4 +14,4 @@
   
 To stop and remove the containers, run `docker-compose down`  
   
-Note: If `docker-compose up` or `docker-compose down` doesn't work, run respectively `sudo docker-compose up` or `sudo docker-compose down
+Note: If `docker-compose up` or `docker-compose down` doesn't work, run respectively `sudo docker-compose up` or `sudo docker-compose down`
